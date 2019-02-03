@@ -1,4 +1,4 @@
-const { curry, compose, get, set } = require('lodash/fp');
+const { curry, compose, get, set, isString, isNumber, find, findIndex } = require('lodash/fp');
 
 const mapWith = curry((func, val) => {
   return val.map(func);
@@ -9,20 +9,52 @@ const lens = curry(
     mapWith(replacement => setter(focus, replacement, target), func(getter(focus, target)))
 );
 
+const getBy = (fpath) => {
+  if (isString(fpath)||isNumber(fpath)) {
+    return get(fpath);
+  }
+  return find(fpath);
+};
+
+const setBy = (fpath) => {
+  if (isString(fpath)||isNumber(fpath)) {
+    return set(fpath);
+  }
+  return curry((val, obj) => {
+    const index = findIndex(fpath, obj);
+    if (index>=0) {
+      obj[index] = val;
+    }
+    return obj;
+  });
+};
+
+// less optimized but laconic version
+// const lensPath = (...paths) => compose(
+//   ...paths.map( path => func => target => {
+//     return mapWith(replacement => setBy(path)(replacement, target), compose(func, getBy(path))(target))
+// }));
 const lensPath = (...paths) => compose(
-  ...paths.map( path => func => target => {
-      return mapWith(replacement => set(path, replacement, target), func(get(path, target)))
+  ...paths.map( path => {
+    const setter = setBy(path);
+    const getter = getBy(path);
+    return func => {
+      const funcGetter = compose(func, getter);
+      return target => {
+        return mapWith(replacement => setter(replacement, target), funcGetter(target))
+      };
+    };
 }));
 
 const pathLens = lens(get, set);
 
-const Const = x => ({value: x, map: function(){ return this; }});
+const mapConst = x => ({value: x, map: function(){ return this; }});
 
-const Identity = x => ({value: x, map: func => Identity(func(x)) });
+const mapIdentity = x => ({value: x, map: func => mapIdentity(func(x)) });
 
-const view = curry( (lens, target) => lens(Const)(target).value );
+const view = curry( (lens, target) => lens(mapConst)(target).value );
 
-const over = curry( (lens, func, target) => lens(y => Identity(func(y)))(target).value);
+const over = curry( (lens, func, target) => lens(y => mapIdentity(func(y)))(target).value);
 
 const always = x => y => x;
 const replace = curry( (lens, val, target) => over(lens, always(val), target) );
@@ -35,4 +67,6 @@ module.exports = {
   view,
   over,
   replace,
+  getBy,
+  setBy,
 };

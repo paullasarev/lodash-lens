@@ -1,4 +1,4 @@
-const { get, set } = require('lodash/fp');
+const { find } = require('lodash/fp');
 
 const { mapWith, lens, view, over, replace, lensPath, pathLens } = require('./lens.js');
 
@@ -84,4 +84,17 @@ describe('lensPath', () => {
     expect(result !== obj).toBeTruthy();
     expect(result).toEqual({a:[{b:2}]});
   });
+  test('should over for identity search', () => {
+    const obj = {a:[{id:0, b:0},{id:1, b:1}]};
+    const result = over(lensPath('a', {id:1}, 'b'), (val=>val+1), obj);
+    expect(result !== obj).toBeTruthy();
+    expect(result).toEqual({a:[{id:0, b:0},{id:1, b:2}]});
+  });
+  test('should over for funcional search', () => {
+    const obj = {a:[{id:0, b:0},{id:1, b:1}]};
+    const result = over(lensPath('a', ({id})=>id===1, 'b'), (val=>val+1), obj);
+    expect(result !== obj).toBeTruthy();
+    expect(result).toEqual({a:[{id:0, b:0},{id:1, b:2}]});
+  });
+
 });
