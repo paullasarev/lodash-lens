@@ -1,0 +1,31 @@
+{
+  "name": "lodash-lens",
+  "version": "1.0.0",
+  "description": "functional lens to use together with lodash library",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:serve": "node --harmony node_modules/jest/bin/jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paullasarev/lodash-lens.git"
+  },
+  "keywords": [
+    "lodash",
+    "lens"
+  ],
+  "author": "paullasarev@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paullasarev/lodash-lens/issues"
+  },
+  "homepage": "https://github.com/paullasarev/lodash-lens#readme",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "npm": "^6.7.0"
+  },
+  "devDependencies": {
+    "jest": "^24.0.0"
+  }
+}
