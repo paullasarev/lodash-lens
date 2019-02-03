@@ -1,6 +1,6 @@
-const { find } = require('lodash/fp');
+const { mapValues } = require('lodash/fp');
 
-const { mapWith, lens, view, over, replace, lensPath, pathLens } = require('./lens.js');
+const { mapWith, lens, view, over, replace, lensPath, pathLens, pickLens } = require('./lens.js');
 
 describe('mapWith', () => {
   test('should map over array', () => {
@@ -97,4 +97,29 @@ describe('lensPath', () => {
     expect(result).toEqual({a:[{id:0, b:0},{id:1, b:2}]});
   });
 
+});
+
+describe('pickLens', () => {
+  test('should view keys', () => {
+    const obj = {a:1,b:2,c:3};
+    const result = view(
+      pickLens('a','b'),
+      obj);
+    expect(result).toEqual({a:1,b:2});
+  });
+  test('should view keys for array arg', () => {
+    const obj = {a:1,b:2,c:3};
+    const result = view(
+      pickLens(['a','b']),
+      obj);
+    expect(result).toEqual({a:1,b:2});
+  });
+  test('should over keys', () => {
+    const obj = {a:1,b:2,c:3};
+    const result = over(
+      pickLens(['a','b']),
+      mapValues(val=>val+1),
+      obj);
+    expect(result).toEqual({a:2,b:3,c:3});
+  });
 });

@@ -1,13 +1,28 @@
-const { curry, compose, get, set, isString, isNumber, find, findIndex } = require('lodash/fp');
+const { curry, compose, get, set, isString, isNumber, find, findIndex, pick, flatten } = require('lodash/fp');
 
 const mapWith = curry((func, val) => {
   return val.map(func);
 });
 
-const lens = curry(
-  (getter, setter, focus, func, target) => 
-    mapWith(replacement => setter(focus, replacement, target), func(getter(focus, target)))
-);
+const lens = (getter, setter) => {
+  return (func) => {
+    const funcGetter = compose(func, getter);
+    return (target) => 
+      mapWith(replacement => setter(replacement, target), funcGetter(target));
+  };
+};
+
+
+const mapConst = x => ({value: x, map: function(){ return this; }});
+
+const mapIdentity = x => ({value: x, map: func => mapIdentity(func(x)) });
+
+const view = curry( (lensFunc, target) => lensFunc(mapConst)(target).value );
+
+const over = curry( (lensFunc, func, target) => lensFunc(y => mapIdentity(func(y)))(target).value);
+
+const always = x => y => x;
+const replace = curry( (lens, val, target) => over(lens, always(val), target) );
 
 const getBy = (fpath) => {
   if (isString(fpath)||isNumber(fpath)) {
@@ -46,18 +61,14 @@ const lensPath = (...paths) => compose(
     };
 }));
 
-const pathLens = lens(get, set);
+const pathLens = (path) => lens(get(path), set(path));
 
-const mapConst = x => ({value: x, map: function(){ return this; }});
-
-const mapIdentity = x => ({value: x, map: func => mapIdentity(func(x)) });
-
-const view = curry( (lens, target) => lens(mapConst)(target).value );
-
-const over = curry( (lens, func, target) => lens(y => mapIdentity(func(y)))(target).value);
-
-const always = x => y => x;
-const replace = curry( (lens, val, target) => over(lens, always(val), target) );
+const pickLens = (...props) => lens(
+  (obj) => pick(flatten(props), obj),
+  (replacement, obj) => {
+    return {...obj, ...replacement};
+  },
+);
 
 module.exports = {
   mapWith,
@@ -69,4 +80,5 @@ module.exports = {
   replace,
   getBy,
   setBy,
+  pickLens,
 };
