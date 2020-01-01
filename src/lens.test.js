@@ -1,4 +1,4 @@
-const { mapValues } = require('lodash/fp');
+const { mapValues, compose, get } = require('lodash/fp');
 
 const { mapWith, lens, view, over, replace, lensPath, pathLens, pickLens } = require('./lens.js');
 
@@ -18,6 +18,14 @@ describe('view', () => {
     const result = view(pathLens('a.b'), {a:{b:1}});
     expect(result).toBe(1);
   });
+  test('should get nested arrayed path', () => {
+    const result = view(pathLens(['a', 'b']), {a:{b:1}});
+    expect(result).toBe(1);
+  });
+  test('should get nested args path', () => {
+    const result = view(pathLens('a.b.c'), {a:{b:{c:1}}});
+    expect(result).toBe(1);
+  });
 });
 
 describe('over', () => {
@@ -33,6 +41,16 @@ describe('over', () => {
     expect(result).toEqual({a:{b:2}});
     expect(result !== obj).toBeTruthy();
   });
+  test('should shallow only objects in path', () => {
+    const obj = {a:{b:1, c:2}, d:3};
+    const result = over(pathLens('a.b'), (val=>val+1), obj);
+    expect(result !== obj).toBeTruthy();
+    expect(result).toEqual({a:{b:2, c:2}, d:3});
+    expect(result.a === obj.a).toBeFalsy();
+    expect(result.a.b === obj.a.b).toBeFalsy();
+    expect(result.a.c === obj.a.c).toBeTruthy();
+    expect(result.d === obj.d).toBeTruthy();
+  });
 });
 
 describe('replace', () => {
@@ -47,6 +65,15 @@ describe('replace', () => {
     const result = replace(pathLens('a.b'), 2, obj);
     expect(result).toEqual({a:{b:2}});
     expect(result !== obj).toBeTruthy();
+  });
+  test('should replace object with nested path', () => {
+    const obj = {a:{b:{c:1}, e:3}};
+    const result = replace(pathLens('a.b'), {c:2,d:3}, obj);
+    expect(result).toEqual({a:{b:{c:2,d:3}, e:3}});
+    expect(result !== obj).toBeTruthy();
+    expect(result.a.b === obj.a.b).toBeFalsy();
+    expect(result.a.e === obj.a.e).toBeTruthy();
+    expect(result.a === obj.a).toBeFalsy();
   });
 });
 
@@ -83,6 +110,16 @@ describe('lensPath', () => {
     const result = over(lensPath('a', 0, 'b'), (val=>val+1), obj);
     expect(result !== obj).toBeTruthy();
     expect(result).toEqual({a:[{b:2}]});
+  });
+  test('should shallow only objects in path', () => {
+    const obj = {a:{b:1, c:2}, d:3};
+    const result = over(lensPath('a', 'b'), (val=>val+1), obj);
+    expect(result !== obj).toBeTruthy();
+    expect(result).toEqual({a:{b:2, c:2}, d:3});
+    expect(result.a === obj.a).toBeFalsy();
+    expect(result.a.b === obj.a.b).toBeFalsy();
+    expect(result.a.c === obj.a.c).toBeTruthy();
+    expect(result.d === obj.d).toBeTruthy();
   });
   test('should over for identity search', () => {
     const obj = {a:[{id:0, b:0},{id:1, b:1}]};
@@ -121,5 +158,20 @@ describe('pickLens', () => {
       mapValues(val=>val+1),
       obj);
     expect(result).toEqual({a:2,b:3,c:3});
+  });
+  test('should pick keys for nested object', () => {
+    const obj = {d:{a:1,b:2,c:3}};
+    const result = view(
+      compose(pathLens('d'),pickLens(['a','b'])),
+      obj);
+    expect(result).toEqual({a:1,b:2});
+  });
+  test('should over pick keys for nested object', () => {
+    const obj = {d:{a:1,b:2,c:3}};
+    const result = over(
+      compose(pathLens('d'),pickLens(['a','b'])),
+      mapValues(val=>val+1),
+      obj);
+    expect(result).toEqual({d:{a:2,b:3,c:3}});
   });
 });

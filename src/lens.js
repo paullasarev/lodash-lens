@@ -61,7 +61,7 @@ const lensPath = (...paths) => compose(
     };
 }));
 
-const pathLens = (path) => lens(get(path), set(path));
+const pathLens = (path, ...rest) => lens(get(path), set(path));
 
 const pickLens = (...props) => lens(
   (obj) => pick(flatten(props), obj),
