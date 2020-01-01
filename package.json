@@ -2,7 +2,8 @@
   "name": "lodash-lens",
   "version": "1.0.0",
   "description": "functional lens to use together with lodash library",
-  "main": "index.js",
+  "main": "src/lens.js",
+  "module": "src/lens.js",
   "scripts": {
     "test": "jest",
     "test:serve": "node --harmony node_modules/jest/bin/jest --watch"
