@@ -67,12 +67,13 @@ describe('replace', () => {
     expect(result !== obj).toBeTruthy();
   });
   test('should replace object with nested path', () => {
-    const obj = {a:{b:{c:1}, e:3}};
+    const obj = {a:{b:{c:1}, e:{o:3}}, f:{o:5}};
     const result = replace(pathLens('a.b'), {c:2,d:3}, obj);
-    expect(result).toEqual({a:{b:{c:2,d:3}, e:3}});
+    expect(result).toEqual({a:{b:{c:2,d:3}, e:{o:3}}, f:{o:5}});
     expect(result !== obj).toBeTruthy();
     expect(result.a.b === obj.a.b).toBeFalsy();
     expect(result.a.e === obj.a.e).toBeTruthy();
+    expect(result.f === obj.f).toBeTruthy();
     expect(result.a === obj.a).toBeFalsy();
   });
 });
