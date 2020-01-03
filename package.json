@@ -1,6 +1,6 @@
 {
   "name": "lodash-lens",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "functional lens to use together with lodash library",
   "main": "dist/lens.js",
   "module": "dist/lens.esm.js",
