@@ -1,3 +1,20 @@
+- [lodash-lens](#lodash-lens)
+  * [Motivation](#motivation)
+  * [Installation](#installation)
+  * [Usage](#usage)
+    + [lens builder](#lens-builder)
+  * [lens operators](#lens-operators)
+    + [view](#view)
+    + [over](#over)
+    + [replace](#replace)
+    + [merge](#merge)
+    + [operators currying](#operators-currying)
+  * [predefined lenses](#predefined-lenses)
+    + [pathLens](#pathlens)
+    + [pickLens](#picklens)
+    + [findLens](#findlens)
+  * [lens composition](#lens-composition)
+
 # lodash-lens
 
 minimalistic functional lens to use together with lodash library
