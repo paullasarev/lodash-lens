@@ -28,7 +28,7 @@
   "homepage": "https://github.com/paullasarev/lodash-lens#readme",
   "dependencies": {
     "lodash": "^4.17.11",
-    "npm": "^6.7.0"
+    "npm": "^6.13.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.7.7",
