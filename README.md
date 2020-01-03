@@ -44,7 +44,7 @@ This library implements the *Lens* concept in a quite mimimalistic way and is de
 
 ### lens builder
 
-To declare *lens* we need to define a *getter* and *setter* functinos: 
+To declare *lens* we need to define a *getter* and *setter* functions: 
 
 ```js
 declare function lens(
