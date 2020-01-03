@@ -28,9 +28,9 @@ links:
 
 Functional [Lenses](https://blog.csssr.ru/2016/07/08/lenses) is a great concept which helps keep code clean and concise. 
 
-Using lens allows to to manupulate object internals in an immutable way.
+Using lens allows to manupulate object internals in an immutable way.
 
-There are full-fledged implementions like [Ramda](https://ramdajs.com/) or [partial.lenses](https://github.com/calmm-js/partial.lenses). It is a great libraries but they power is sometimes too much for a small projects. From the other side, using lodash/fp normally has a minimal overhead. Unfortunately, the *lodash/fp* doesn't have functional lenses :(
+There are full-fledged implementions like [Ramda](https://ramdajs.com/) or [partial.lenses](https://github.com/calmm-js/partial.lenses). They are great libraries but it's power is sometimes too much for small projects. From the other side, using lodash/fp normally has a minimal overhead. Unfortunately, the *lodash/fp* doesn't have functional lenses :(
 
 This library implements the *Lens* concept in a quite mimimalistic way and is designed to work on the top of excellent [lodash](https://github.com/lodash/lodash) / [lodash/fp](https://gist.github.com/jfmengels/6b973b69c491375117dc) stack with miminum overhead.
 
@@ -206,6 +206,8 @@ test('should over for identity search', () => {
 *lenses* by itself are pure functions, so they can be easy composed:
 
 ```js
+import { compose } from 'lodash/fp';
+
 test('should over for identity search', () => {
   const obj = {a:[{id:0, b:0},{id:1, b:1}]};
   const result = over(
