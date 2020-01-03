@@ -2,11 +2,15 @@
   "name": "lodash-lens",
   "version": "1.0.0",
   "description": "functional lens to use together with lodash library",
-  "main": "src/lens.js",
-  "module": "src/lens.js",
+  "main": "dist/lens.js",
+  "module": "dist/lens.esm.js",
+  "types": "dist/lens.d.ts",
   "scripts": {
-    "test": "jest",
-    "test:serve": "node --harmony node_modules/jest/bin/jest --watch"
+    "build": "npx rollup -c",
+    "build:watch": "npx rollup -c --watch",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "toc": "npx markdown-toc README.md"
   },
   "repository": {
     "type": "git",
@@ -27,6 +31,10 @@
     "npm": "^6.7.0"
   },
   "devDependencies": {
-    "jest": "^24.0.0"
+    "@babel/preset-env": "^7.7.7",
+    "cross-env": "^6.0.3",
+    "jest": "^24.0.0",
+    "rollup-plugin-copy": "^3.1.0",
+    "rollup-plugin-terser": "^5.1.3"
   }
 }

@@ -1,6 +1,7 @@
-const { mapValues, compose } = require('lodash/fp');
+import { mapValues, compose } from 'lodash/fp';
 
-const { mapWith, view, over, replace, merge, pathLens, pickLens, findLens } = require('./lens.js');
+import { mapWith, view, over, replace, merge,
+   pathLens, pickLens, findLens } from './lens.js';
 
 describe('mapWith', () => {
   test('should map over array', () => {
@@ -25,6 +26,11 @@ describe('view', () => {
   test('should get nested args path', () => {
     const result = view(pathLens('a.b.c'), {a:{b:{c:1}}});
     expect(result).toBe(1);
+  });
+  test('should get nested object', () => {
+    const obj = {a:{b:{c:1}}};
+    const result = view(pathLens('a.b'), obj);
+    expect(result).toBe(obj.a.b);
   });
 });
 
@@ -51,6 +57,15 @@ describe('over', () => {
     expect(result.a.c === obj.a.c).toBeTruthy();
     expect(result.d === obj.d).toBeTruthy();
   });
+
+  test('should over nested path', () => {
+    const overAB = over(pathLens('a.b'), (val=>val+1));
+    
+    const obj = {a:{b:1}};
+    const result = overAB(obj);
+    expect(result).toEqual({a:{b:2}});
+    expect(result !== obj).toBeTruthy();
+  });  
 });
 
 describe('replace', () => {

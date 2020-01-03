@@ -1,5 +1,4 @@
-import { curry, compose, get, set, find, findIndex, pick,
-  flatten, isArray, isObject, isUndefined } from 'lodash/fp';
+import { curry, compose, isUndefined, set, get, isObject, pick, flatten, isArray, findIndex, find } from 'lodash/fp';
 
 const mapWith = curry((func, val) => {
   return val.map(func);
@@ -60,14 +59,4 @@ const findLens = (props) => lens(
   },
 );
 
-export {
-  mapWith,
-  lens,
-  pathLens,
-  view,
-  over,
-  replace,
-  merge,
-  pickLens,
-  findLens,
-};
+export { findLens, lens, mapWith, merge, over, pathLens, pickLens, replace, view };
