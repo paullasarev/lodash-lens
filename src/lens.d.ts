@@ -27,11 +27,11 @@ declare const merge: CurriedFunction3<LensFunc, MapFunc, any, any>;
 declare const replace: CurriedFunction3<LensFunc, any, any, any>;
 
 // predefined lenses
-type TPath = string | [string];
+type TPath = string | [string|number];
 
 declare function pathLens(path: TPath): LensFunc;
 
 declare function findLens(props: TPath): LensFunc;
 
-declare function pickLens(props: TPath): LensFunc;
+declare function pickLens(props: {[k:string]:any}): LensFunc;
 
