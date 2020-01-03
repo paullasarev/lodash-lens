@@ -29,7 +29,7 @@ declare const replace: CurriedFunction3<LensFunc, any, any, any>;
 // predefined lenses
 type TPath = string | [string|number];
 
-declare function pathLens(path: TPath): LensFunc;
+declare function pathLens(path?: TPath): LensFunc;
 
 declare function findLens(props: TPath): LensFunc;
 
