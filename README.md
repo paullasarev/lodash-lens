@@ -26,7 +26,7 @@ links:
 
 ## Motivation  
 
-Functional [Lenses](https://blog.csssr.ru/2016/07/08/lenses) is a great concept which helps keep code clean and consise. 
+Functional [Lenses](https://blog.csssr.ru/2016/07/08/lenses) is a great concept which helps keep code clean and concise. 
 
 Using lens allows to to manupulate object internals in an immutable way.
 
