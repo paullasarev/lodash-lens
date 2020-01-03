@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/paullasarev/lodash-lens#readme",
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "npm": "^6.7.0"
   },
   "devDependencies": {
