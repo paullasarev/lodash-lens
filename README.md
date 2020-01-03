@@ -144,22 +144,19 @@ test('should over nested path', () => {
 *pathLens* highlight object by *lodash* get/set accessors
 
 ```js
+test('should view nested level', () => {
+  const obj = {a:{b:{c:1}}};
+  const result = view(pathLens(['a','b']), obj);
+  expect(result).toBe(obj.a.b);
+});
+```
+
+```js
 test('should over nested level', () => {
   const obj = {a:[{b:1}]};
   const result = over(pathLens(['a', 0, 'b']), (val=>val+1), obj);
   expect(result !== obj).toBeTruthy();
   expect(result).toEqual({a:[{b:2}]});
-});
-```
-
-```js
-test('should over keys', () => {
-  const obj = {a:1,b:2,c:3};
-  const result = over(
-    pickLens(['a','b']),
-    mapValues(val=>val+1),
-    obj);
-  expect(result).toEqual({a:2,b:3,c:3});
 });
 ```
 

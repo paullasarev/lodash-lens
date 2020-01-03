@@ -111,9 +111,9 @@ describe('pathLens', () => {
     expect(result).toEqual({a:2});
   });
   test('should view nested level', () => {
-    const obj = {a:{b:1}};
+    const obj = {a:{b:{c:1}}};
     const result = view(pathLens(['a','b']), obj);
-    expect(result).toBe(1);
+    expect(result).toBe(obj.a.b);
   });
   test('should over nested level', () => {
     const obj = {a:{b:1}};
