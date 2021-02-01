@@ -27,7 +27,7 @@ declare const merge: CurriedFunction3<LensFunc, MapFunc, any, any>;
 declare const replace: CurriedFunction3<LensFunc, any, any, any>;
 
 // predefined lenses
-type TPath = string | [string|number];
+type TPath = string | (string|number)[];
 
 declare function pathLens(path?: TPath): LensFunc;
 
