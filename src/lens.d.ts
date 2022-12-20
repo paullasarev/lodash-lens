@@ -1,4 +1,4 @@
-import { CurryedFunction2, CurriedFunction3 } from 'lodash/fp';
+import { CurriedFunction2, CurriedFunction3 } from 'lodash';
 
 interface ValueMap {
   value: any,
@@ -15,7 +15,7 @@ declare function lens(
 
 // lens operators
 // declare function view(lens: LensFunc, target: any): any;
-declare const view: CurryedFunction2<LensFunc, any, any>;
+declare const view: CurriedFunction2<LensFunc, any, any>;
 
 // declare function over(lens: LensFunc, func: MapFunc, target: any): any;
 declare const over: CurriedFunction3<LensFunc, MapFunc, any, any>;
